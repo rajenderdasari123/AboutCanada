@@ -13,13 +13,11 @@ import io.reactivex.schedulers.Schedulers;
 public class CloudManager {
   private static CloudApi mCloudApi;
   private static CloudManager mCloudManager = null;
-  private static Context mContext;
 
   private CloudManager() {
   }
 
   public static CloudManager getInstance(Context context) {
-    mContext = context;
     if (mCloudManager == null) {
       mCloudManager = new CloudManager();
       if (context != null) {
@@ -29,7 +27,10 @@ public class CloudManager {
     return mCloudManager;
   }
 
-
+  /**
+   * Api Call to getData From the Cloud.
+   * @return {@link Single<AboutCanada>}
+   */
   public Single<AboutCanada> getData() {
     return mCloudApi.getString()
         .subscribeOn(Schedulers.io())

@@ -22,9 +22,10 @@ public class MainViewModel extends AndroidViewModel {
   private List<AboutCanadaDetails> mAboutCanadaDetailsList;
   private Application mApplication;
   private Disposable mDisposable;
-  AboutCanadaAdapter mAboutCanadaAdapter;
+  private AboutCanadaAdapter mAboutCanadaAdapter;
   private MutableLiveData mTitleLD;
   private MutableLiveData<Boolean> mHideSwipeRefreshLiveData;
+  private MutableLiveData<Throwable> mErrorMutableLiveData;
 
   public MainViewModel(@NonNull Application application) {
     super(application);
@@ -32,8 +33,12 @@ public class MainViewModel extends AndroidViewModel {
     mApplication = application;
     mTitleLD = new MutableLiveData();
     mHideSwipeRefreshLiveData = new MutableLiveData<>();
+    mErrorMutableLiveData = new MutableLiveData<>();
   }
 
+  /**
+   * This method Fetches data from api call and populate to View.
+   */
   protected void getData() {
     if (NetworkUtil.isNetworkConnected(mApplication)) {
       mDisposable = mCloudManager.getData().subscribeWith(new DisposableSingleObserver<AboutCanada>() {
@@ -48,7 +53,8 @@ public class MainViewModel extends AndroidViewModel {
 
         @Override
         public void onError(Throwable e) {
-
+          mHideSwipeRefreshLiveData.setValue(true);
+          mErrorMutableLiveData.postValue(e);
         }
       });
     } else {
@@ -57,6 +63,13 @@ public class MainViewModel extends AndroidViewModel {
     }
   }
 
+  /**
+   * gets the values from the api call and populates to a list item with {@link AboutCanadaDetails} at the
+   * position mentioned.
+   *
+   * @param position {@link Integer}
+   * @return {@link AboutCanadaDetails}.
+   */
   public AboutCanadaDetails getAboutCanadaDetails(Integer position) {
     return mAboutCanadaDetailsList.get(position);
   }
@@ -66,7 +79,7 @@ public class MainViewModel extends AndroidViewModel {
   }
 
   public AboutCanadaAdapter getAboutCanadaAdapter() {
-    mAboutCanadaAdapter = new AboutCanadaAdapter(this, mApplication);
+    mAboutCanadaAdapter = new AboutCanadaAdapter(this);
     return mAboutCanadaAdapter;
   }
 
@@ -74,7 +87,16 @@ public class MainViewModel extends AndroidViewModel {
     return mHideSwipeRefreshLiveData;
   }
 
-  public void clearDisposals() {
+  public MutableLiveData<Throwable> getErrorMutableLiveData() {
+    return mErrorMutableLiveData;
+  }
+
+  /**
+   * Disposes all the disposables on Destroy of activity.
+   */
+  @Override
+  protected void onCleared() {
+    super.onCleared();
     mDisposable.dispose();
   }
 }
