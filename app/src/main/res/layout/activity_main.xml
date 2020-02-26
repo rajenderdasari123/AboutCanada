@@ -29,17 +29,19 @@
           style="@style/AboutCanadaHeaderTextStyle"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:gravity="center_horizontal" />
+          android:gravity="center_horizontal"
+          android:text="@{mainViewModel.getTitleLD()}" />
 
 
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/canada_list"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:layout_marginTop="@dimen/dimen_5dp"
+          android:layout_marginTop="@dimen/dimen_2dp"
           android:scrollbars="vertical"
           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
           app:layout_behavior="@string/appbar_scrolling_view_behavior"
+          app:setAdapter="@{mainViewModel.getAboutCanadaAdapter()}"
            />
     </LinearLayout>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
