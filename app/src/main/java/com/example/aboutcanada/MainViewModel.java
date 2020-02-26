@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
@@ -105,5 +106,15 @@ public class MainViewModel extends AndroidViewModel {
   protected void onCleared() {
     super.onCleared();
     mDisposable.dispose();
+  }
+
+  @VisibleForTesting
+  public AboutCanadaAdapter getAdapter() {
+    return mAboutCanadaAdapter;
+  }
+
+  @VisibleForTesting
+  public void setAdapterList(List<AboutCanadaDetails> detailsList) {
+    mAboutCanadaDetailsList = detailsList;
   }
 }
