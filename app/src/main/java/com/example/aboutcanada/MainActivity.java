@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     activityMainBinding.setLifecycleOwner(this);
     activityMainBinding.executePendingBindings();
     mSwipeRefreshLayout = activityMainBinding.swipeRefresh;
-    mMainViewModel.getData();
+    mMainViewModel.setAboutCanadaAdapter();
     mSwipeRefreshLayout.setOnRefreshListener(() -> mMainViewModel.getData());
     initObservers();
   }

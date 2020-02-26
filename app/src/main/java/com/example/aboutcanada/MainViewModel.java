@@ -9,6 +9,7 @@ import com.example.aboutcanada.model.AboutCanada;
 import com.example.aboutcanada.model.AboutCanadaDetails;
 import com.example.aboutcanada.utils.NetworkUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,8 @@ public class MainViewModel extends AndroidViewModel {
     mTitleLD = new MutableLiveData();
     mHideSwipeRefreshLiveData = new MutableLiveData<>();
     mErrorMutableLiveData = new MutableLiveData<>();
+    mAboutCanadaDetailsList=new ArrayList<>();
+    getData();
   }
 
   /**
@@ -47,8 +50,7 @@ public class MainViewModel extends AndroidViewModel {
           mHideSwipeRefreshLiveData.setValue(true);
           mTitleLD.setValue(aboutCanada.getTitle());
           mAboutCanadaDetailsList = aboutCanada.getRows();
-          mAboutCanadaAdapter.setAboutCanadaList(mAboutCanadaDetailsList);
-          mAboutCanadaAdapter.notifyDataSetChanged();
+          setAboutCanadaAdapter();
         }
 
         @Override
@@ -61,6 +63,11 @@ public class MainViewModel extends AndroidViewModel {
       mHideSwipeRefreshLiveData.setValue(true);
       Toast.makeText(mApplication.getApplicationContext(), "Please check your network connection", Toast.LENGTH_SHORT).show();
     }
+  }
+
+  public void setAboutCanadaAdapter() {
+    mAboutCanadaAdapter.setAboutCanadaList(mAboutCanadaDetailsList);
+    mAboutCanadaAdapter.notifyDataSetChanged();
   }
 
   /**
