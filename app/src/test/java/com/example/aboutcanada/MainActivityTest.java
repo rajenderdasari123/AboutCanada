@@ -1,7 +1,5 @@
 package com.example.aboutcanada;
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Build;
 
 import com.example.aboutcanada.managar.CloudManager;
@@ -24,7 +22,6 @@ import java.util.List;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 import io.reactivex.Single;
 
 import static org.junit.Assert.assertEquals;

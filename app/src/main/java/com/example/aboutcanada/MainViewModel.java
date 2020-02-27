@@ -32,6 +32,7 @@ public class MainViewModel extends AndroidViewModel {
   public MainViewModel(@NonNull Application application) {
     super(application);
     mCloudManager = CloudManager.getInstance(application);
+    mAboutCanadaAdapter = new AboutCanadaAdapter(this);
     mApplication = application;
     mTitleLD = new MutableLiveData();
     mHideSwipeRefreshLiveData = new MutableLiveData<>();
@@ -87,7 +88,6 @@ public class MainViewModel extends AndroidViewModel {
   }
 
   public AboutCanadaAdapter getAboutCanadaAdapter() {
-    mAboutCanadaAdapter = new AboutCanadaAdapter(this);
     return mAboutCanadaAdapter;
   }
 
