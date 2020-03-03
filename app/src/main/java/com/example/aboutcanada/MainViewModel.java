@@ -1,7 +1,6 @@
 package com.example.aboutcanada;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import com.example.aboutcanada.adapter.AboutCanadaAdapter;
 import com.example.aboutcanada.managar.CloudManager;
@@ -28,6 +27,7 @@ public class MainViewModel extends AndroidViewModel {
   private MutableLiveData mTitleLD;
   private MutableLiveData<Boolean> mHideSwipeRefreshLiveData;
   private MutableLiveData<Throwable> mErrorMutableLiveData;
+  private MutableLiveData<Boolean> mNetworkErrorMutableLiveData;
 
   public MainViewModel(@NonNull Application application) {
     super(application);
@@ -37,6 +37,7 @@ public class MainViewModel extends AndroidViewModel {
     mTitleLD = new MutableLiveData();
     mHideSwipeRefreshLiveData = new MutableLiveData<>();
     mErrorMutableLiveData = new MutableLiveData<>();
+    mNetworkErrorMutableLiveData = new MutableLiveData<>();
     mAboutCanadaDetailsList = new ArrayList<>();
     getData();
   }
@@ -46,6 +47,7 @@ public class MainViewModel extends AndroidViewModel {
    */
   protected void getData() {
     if (NetworkUtil.isNetworkConnected(mApplication)) {
+      mNetworkErrorMutableLiveData.postValue(false);
       mDisposable = mCloudManager.getData().subscribeWith(new DisposableSingleObserver<AboutCanada>() {
         @Override
         public void onSuccess(AboutCanada aboutCanada) {
@@ -63,7 +65,7 @@ public class MainViewModel extends AndroidViewModel {
       });
     } else {
       mHideSwipeRefreshLiveData.setValue(true);
-      Toast.makeText(mApplication.getApplicationContext(), "Please check your network connection", Toast.LENGTH_SHORT).show();
+      mNetworkErrorMutableLiveData.postValue(true);
     }
   }
 
@@ -97,6 +99,10 @@ public class MainViewModel extends AndroidViewModel {
 
   public MutableLiveData<Throwable> getErrorMutableLiveData() {
     return mErrorMutableLiveData;
+  }
+
+  public MutableLiveData<Boolean> getNetworkErrorMutableLiveData() {
+    return mNetworkErrorMutableLiveData;
   }
 
   /**

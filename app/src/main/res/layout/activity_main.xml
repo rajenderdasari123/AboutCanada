@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
   <data>
+
     <variable
         name="mainViewModel"
         type="com.example.aboutcanada.MainViewModel" />
@@ -32,6 +33,14 @@
           android:gravity="center_horizontal"
           android:text="@{mainViewModel.getTitleLD()}" />
 
+      <TextView
+          android:id="@+id/tv_no_network"
+          style="@style/AboutCanadaHeaderTextStyle"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:text="@string/network_description"
+          android:visibility="invisible" />
 
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/canada_list"
@@ -41,8 +50,7 @@
           android:scrollbars="vertical"
           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
           app:layout_behavior="@string/appbar_scrolling_view_behavior"
-          app:setAdapter="@{mainViewModel.getAboutCanadaAdapter()}"
-           />
+          app:setAdapter="@{mainViewModel.getAboutCanadaAdapter()}" />
     </LinearLayout>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

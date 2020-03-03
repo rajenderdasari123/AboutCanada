@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.aboutcanada.databinding.ActivityMainBinding;
@@ -15,16 +16,17 @@ import static com.example.aboutcanada.BR.mainViewModel;
 public class MainActivity extends AppCompatActivity {
   private MainViewModel mMainViewModel;
   private SwipeRefreshLayout mSwipeRefreshLayout;
+  private ActivityMainBinding mActivityMainBinding;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-    ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-    activityMainBinding.setVariable(mainViewModel, mMainViewModel);
-    activityMainBinding.setLifecycleOwner(this);
-    activityMainBinding.executePendingBindings();
-    mSwipeRefreshLayout = activityMainBinding.swipeRefresh;
+    mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+    mActivityMainBinding.setVariable(mainViewModel, mMainViewModel);
+    mActivityMainBinding.setLifecycleOwner(this);
+    mActivityMainBinding.executePendingBindings();
+    mSwipeRefreshLayout = mActivityMainBinding.swipeRefresh;
     mMainViewModel.setAboutCanadaAdapter();
     mSwipeRefreshLayout.setOnRefreshListener(() -> mMainViewModel.getData());
     initObservers();
@@ -36,6 +38,22 @@ public class MainActivity extends AppCompatActivity {
   private void initObservers() {
     mMainViewModel.getHideSwipeRefreshLiveData().observe(this, this::hideSwipeRefresh);
     mMainViewModel.getErrorMutableLiveData().observe(this, this::handleErrors);
+    mMainViewModel.getNetworkErrorMutableLiveData().observe(this, this::networkError);
+  }
+
+  /**
+   * This method handle NetworkError Call.
+   *
+   * @param aBoolean {@link Boolean}.
+   */
+  private void networkError(Boolean aBoolean) {
+    if (aBoolean) {
+      mActivityMainBinding.tvNoNetwork.setVisibility(View.VISIBLE);
+      mActivityMainBinding.canadaList.setVisibility(View.GONE);
+    } else {
+      mActivityMainBinding.tvNoNetwork.setVisibility(View.GONE);
+      mActivityMainBinding.canadaList.setVisibility(View.VISIBLE);
+    }
   }
 
   /**
