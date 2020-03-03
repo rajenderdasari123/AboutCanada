@@ -37,7 +37,7 @@ public class MainViewModel extends AndroidViewModel {
     mTitleLD = new MutableLiveData();
     mHideSwipeRefreshLiveData = new MutableLiveData<>();
     mErrorMutableLiveData = new MutableLiveData<>();
-    mAboutCanadaDetailsList=new ArrayList<>();
+    mAboutCanadaDetailsList = new ArrayList<>();
     getData();
   }
 
@@ -91,7 +91,7 @@ public class MainViewModel extends AndroidViewModel {
     return mAboutCanadaAdapter;
   }
 
-  public MutableLiveData<Boolean>getHideSwipeRefreshLiveData(){
+  public MutableLiveData<Boolean> getHideSwipeRefreshLiveData() {
     return mHideSwipeRefreshLiveData;
   }
 
@@ -105,7 +105,9 @@ public class MainViewModel extends AndroidViewModel {
   @Override
   protected void onCleared() {
     super.onCleared();
-    mDisposable.dispose();
+    if (mDisposable != null) {
+      mDisposable.dispose();
+    }
   }
 
   @VisibleForTesting
