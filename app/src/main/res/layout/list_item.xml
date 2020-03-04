@@ -55,7 +55,6 @@
           android:layout_marginLeft="@dimen/dimen_5dp"
           android:layout_marginEnd="@dimen/dimen_10dp"
           android:scaleType="fitXY"
-          android:src="@drawable/ic_launcher"
           app:imageurl="@{mainViewModel.getAboutCanadaDetails(position).getImageHref()}"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toEndOf="@id/tv_description"
